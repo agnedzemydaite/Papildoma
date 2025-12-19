@@ -48,8 +48,6 @@ int main(){
     string failas = failo_pavadinimo_iv();
     wregex url_israiska = url_israisku_nustatymas();
     
-    
-    
     //zodziu skaiciavimas
     map <wstring, pair<int, vector<int>>> zodziai;
     vector <wstring> url;
@@ -85,16 +83,9 @@ int main(){
         fin.close();
     }
     
-    spausd_zodz_f(zodziai);
+    spausd_zodz(zodziai);
+    spausd_url(url);
     
-    int pasirinkimas = 0;
-    cout << "Kur norite, kad atspausdintų nuorodas?" << endl;
-    cout << "1. Spausdinti i ekrana." << endl;
-    cout << "2. Spausdinti i faila." << endl << endl;
-    pasirinkimas = pasirink_iv(1, 2);
-    
-    if(pasirinkimas == 1) spausd_url_t(url);
-    else if(pasirinkimas == 2) spausd_url_f(url);
     
     
     return 0;

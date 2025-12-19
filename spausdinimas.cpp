@@ -11,7 +11,7 @@ using std::endl;
 using std::cout;
 using std::wcout;
 
-void spausd_zodz_f(map<wstring, pair<int, vector<int>>> & zodziai){
+void spausd_zodz(map<wstring, pair<int, vector<int>>> & zodziai){
     wofstream fout("cross-reference_zodziu_lentele.txt");
     fout.imbue(locale());
     
@@ -69,5 +69,14 @@ void spausd_url_t(vector <wstring> url){
     cout << endl << "Iš viso nuorodų buvo rasta: " << nn << endl;
 }
 
-
+void spausd_url(vector <wstring> url){
+    int pasirinkimas = 0;
+    cout << "Kur norite, kad atspausdintų nuorodas?" << endl;
+    cout << "1. Spausdinti i ekrana." << endl;
+    cout << "2. Spausdinti i faila." << endl << endl;
+    pasirinkimas = pasirink_iv(1, 2);
+    
+    if(pasirinkimas == 1) spausd_url_t(url);
+    else if(pasirinkimas == 2) spausd_url_f(url);
+}
 
