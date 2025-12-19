@@ -6,8 +6,6 @@ using std::string;
 using std::ifstream;
 using std::endl;
 
-
-//failo pavadimo ivedimas
 string failo_pavadinimo_iv(){
     string failas;
     while(true){
@@ -55,3 +53,5 @@ int pasirink_iv(int min_r, int max_r){
         return pasirinkimas;
     }
 }
+
+

@@ -16,12 +16,8 @@ void spausd_zodz(map<wstring, pair<int, vector<int>>> & zodziai){
     fout.imbue(locale());
     
     //atspausdiname antraste
-    fout << setw(20) << left << L"Žodis" << L" | " << setw(7) << left << L"Kiekis" << L" | " << L"Eilutės" << endl;
-    for(int i = 1; i <= 130; i++){
-        fout << L"-";
-    }
-    fout << endl;
-
+    fout << setw(25) << left << L"Žodis" << L" | " << setw(7) << left << L"Kiekis" << L" | " << L"Eilutės" << endl;
+    
     //spausdiname zodziu rezultatus
     int n = 0, np = 0; // n - kiek skirtingu zodziu > 1 np - kiek is viso tokiu zodziu
     for (const auto &p : zodziai) {
@@ -31,7 +27,7 @@ void spausd_zodz(map<wstring, pair<int, vector<int>>> & zodziai){
             int kiekis = p.second.first;
             vector<int> eilutes = p.second.second;
             np += kiekis;
-            fout << setw(20) << left << zodis << L" | " << setw(7) << left << kiekis << L" | ";
+            fout << setw(25) << left << zodis << L" | " << setw(7) << left << kiekis << L" | ";
             
             for (int e : eilutes) {
                 fout << e << L" ";
@@ -60,7 +56,7 @@ void spausd_url_f(vector <wstring> url){
 
 void spausd_url_t(vector <wstring> url){
     wcout.imbue(locale());
-    int nn = 0;
+    int nn = 0; // kiek nuorodu
     cout << "Rastos nuorodos:" << endl;
     for(wstring u: url){
         nn++;

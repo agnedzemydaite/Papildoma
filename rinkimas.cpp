@@ -9,26 +9,62 @@ using std::wistringstream;
 using std::vector;
 using std::wsmatch;
 
-wstring zodzio_pertvarkymas(wstring zodis) {
-    wstring rezultatas = L"";
-    for (wchar_t c : zodis) {
+bool visos_did(const wstring& s){
+    bool did_raide = false;
+    for (wchar_t c : s) {
         if (iswalpha(c)) {
-            rezultatas += towlower(c);
+            did_raide = true;
+            if (iswlower(c)) return false;
         }
     }
+    return did_raide;
+}
+
+bool raide(const wstring& s){
+    for (wchar_t c : s) {
+        if (iswalpha(c)) return true;
+    }
+    return false;
+}
+
+vector<wstring> zodzio_pertvarkymas(wstring zodis){
+    vector<wstring> rezultatas;
+    wstring laikinas = L"";
+    
+    
+    for(wchar_t c : zodis) {
+        if(iswalnum(c)) laikinas += c;
+        else{
+            if (!laikinas.empty()) {
+                if(raide(laikinas)){
+                    if (!visos_did(laikinas)) {
+                        for (auto &lc : laikinas) lc = towlower(lc);
+                    }
+                    rezultatas.push_back(laikinas);
+                }
+                laikinas = L"";
+            }
+        }
+    }
+    if(!laikinas.empty() && raide(laikinas)){
+        if (!visos_did(laikinas)) {
+            for (auto &lc : laikinas) lc = towlower(lc);
+        }
+        rezultatas.push_back(laikinas);
+    }
+    
     return rezultatas;
 }
 
 
-void radimas(map <wstring, pair<int, vector<int>>> & zodziai, vector <wstring> & url){
+void radimas(map <wstring, pair<int, vector<int>>> & zodziai, vector <wstring> & url, string & failas, wregex & url_israiska){
     
     wstring eilute;
     int eilutes_nr = 0;
-    wregex url_israiska = url_israisku_nustatymas();
     
-    string failas = failo_pavadinimo_iv();
     wifstream fin(failas);
     fin.imbue(locale());
+    
     if (fin.is_open()) {
         while (getline(fin, eilute)) {
             eilutes_nr++;
@@ -41,13 +77,14 @@ void radimas(map <wstring, pair<int, vector<int>>> & zodziai, vector <wstring> &
                     url.push_back(match[0].str());
                 }
                 else {
-                    wstring sutvarkytas_zodis = zodzio_pertvarkymas(zodis);
-                    if (!sutvarkytas_zodis.empty()) {
-                        zodziai[sutvarkytas_zodis].first++;
-                        if (zodziai[sutvarkytas_zodis].second.empty() || zodziai[sutvarkytas_zodis].second.back() != eilutes_nr) {
-                            zodziai[sutvarkytas_zodis].second.push_back(eilutes_nr);
+                    vector<wstring> sutvarkyti = zodzio_pertvarkymas(zodis);
+                    for (const wstring& s : sutvarkyti) {
+                        if (!s.empty()) {
+                            zodziai[s].first++;
+                            if (zodziai[s].second.empty() || zodziai[s].second.back() != eilutes_nr) zodziai[s].second.push_back(eilutes_nr);
                         }
                     }
+                    
                 }
             }
         }

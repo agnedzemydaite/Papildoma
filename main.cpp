@@ -12,7 +12,10 @@ int main(){
     map <wstring, pair<int, vector<int>>> zodziai;
     vector <wstring> url;
     
-    radimas(zodziai,url);
+    wregex url_israiska = url_israisku_nustatymas();
+    string failas = failo_pavadinimo_iv();
+    
+    radimas(zodziai, url, failas, url_israiska);
     spausd_zodz(zodziai);
     spausd_url(url);
     
