@@ -1,3 +1,5 @@
+#include "url_funkcijos.h"
+
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -37,13 +39,15 @@ using std::left;
 using std::wcout;
 
 
-bool arURL(wstring zodis);
+bool arURL(wstring zodis, const wregex& url_regex);
 wstring zodzio_pertvarkymas(wstring zodis);
 
 int main(){
     locale::global(locale("en_US.UTF-8"));
     wcout.imbue(locale());
     string failas; //failo pavadinimas
+    
+    wregex url_israiska = url_israisku_nustatymas();
     
     //failo pavadimo ivedimas
     while(true){
@@ -73,11 +77,12 @@ int main(){
             eilutes_nr++;
             wistringstream wiss(eilute);
             wstring zodis;
+            std::wsmatch match;
 
             while (wiss >> zodis) {
-                if (arURL(zodis)) {
-                    url.push_back(zodis);
-                }
+                if (regex_search(zodis, match, url_israiska)) {
+                        url.push_back(match[0].str());
+                    }
                 else {
                     wstring sutvarkytas_zodis = zodzio_pertvarkymas(zodis);
                     if (!sutvarkytas_zodis.empty()) {
@@ -146,9 +151,10 @@ int main(){
     return 0;
 }
 
-bool arURL(wstring zodis){
-    wregex urlformatas(LR"((https?:\/\/|www\.)[^\s]+|[\w\-]+\.[a-z]{2,6}(\/.*)?)", icase);
-    return regex_search(zodis, urlformatas);
+bool arURL(wstring zodis, const wregex& url_israiska) {
+    // Naudojame regex_search, kad rastume URL bet kurioje žodžio vietoje
+    // bet pati regex_israiska turi būti protingesnė
+    return regex_search(zodis, url_israiska);
 }
 wstring zodzio_pertvarkymas(wstring zodis) {
     wstring rezultatas = L"";
@@ -159,3 +165,4 @@ wstring zodzio_pertvarkymas(wstring zodis) {
     }
     return rezultatas;
 }
+
