@@ -1,4 +1,6 @@
 #include "url_funkcijos.h"
+#include "spausdinimas.h"
+#include "ivedimas.h"
 
 #include <iostream>
 #include <string>
@@ -38,30 +40,15 @@ using std::setw;
 using std::left;
 using std::wcout;
 
-
-bool arURL(wstring zodis, const wregex& url_regex);
 wstring zodzio_pertvarkymas(wstring zodis);
 
 int main(){
     locale::global(locale("en_US.UTF-8"));
-    wcout.imbue(locale());
-    string failas; //failo pavadinimas
     
+    string failas = failo_pavadinimo_iv();
     wregex url_israiska = url_israisku_nustatymas();
     
-    //failo pavadimo ivedimas
-    while(true){
-        cout << "Iveskite failo pavadinima: ";
-        cin >> failas;
-        ifstream fin(failas);
-        if (!fin) {
-                cout << "Nepavyko atidaryti failo." << endl;
-        }
-        else{
-            break;
-        }
-        fin.close();
-    }
+    
     
     //zodziu skaiciavimas
     map <wstring, pair<int, vector<int>>> zodziai;
@@ -98,64 +85,21 @@ int main(){
         fin.close();
     }
     
-    int n = 0;
-    int np = 0;
+    spausd_zodz_f(zodziai);
     
-    wofstream fout("zodziu lentele.txt");
-    fout.imbue(locale());
+    int pasirinkimas = 0;
+    cout << "Kur norite, kad atspausdintų nuorodas?" << endl;
+    cout << "1. Spausdinti i ekrana." << endl;
+    cout << "2. Spausdinti i faila." << endl << endl;
+    pasirinkimas = pasirink_iv(1, 2);
     
-        fout << setw(20) << left << L"Žodis" << L" | " << setw(10) << left << L"Kiekis" << L" | " << L"Eilutės" << endl;
-        fout << L"--------------------------------------------------------------" << endl;
-
-        for (const auto &p : zodziai) {
-
-            if (p.second.first > 0) {
-                n++;
-                wstring zodis = p.first;
-                int kiekis = p.second.first;
-                vector<int> eilutes = p.second.second;
-                np += kiekis;
-                fout << setw(20) << left << zodis << L" | " << setw(10) << left << kiekis << L" | ";
-                
-                for (int e : eilutes) {
-                    fout << e << L" ";
-                }
-                fout << endl;
-            }
-        }
-    fout.close();
-    cout << n;
-    cout << endl <<np << endl;
-    
-//    for (const auto &p : zodziai) {
-//        if (p.second.first > 1) {
-//            wstring zodis = p.first;
-//            int kiekis = p.second.first;
-//            vector<int> eilutes = p.second.second;
-//            wcout << zodis << L" " << kiekis << L" " << endl;
-//        }
-//    }
-    
-    int nn = 0;
-    wofstream fout1("url.txt");
-    for(wstring u: url){
-        nn++;
-        wcout << u << endl;
-    }
-    cout << nn << endl;
-    
-    
-    
+    if(pasirinkimas == 1) spausd_url_t(url);
+    else if(pasirinkimas == 2) spausd_url_f(url);
     
     
     return 0;
 }
 
-bool arURL(wstring zodis, const wregex& url_israiska) {
-    // Naudojame regex_search, kad rastume URL bet kurioje žodžio vietoje
-    // bet pati regex_israiska turi būti protingesnė
-    return regex_search(zodis, url_israiska);
-}
 wstring zodzio_pertvarkymas(wstring zodis) {
     wstring rezultatas = L"";
     for (wchar_t c : zodis) {
@@ -165,4 +109,3 @@ wstring zodzio_pertvarkymas(wstring zodis) {
     }
     return rezultatas;
 }
-
