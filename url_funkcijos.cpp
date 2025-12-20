@@ -25,9 +25,6 @@ wstring tld_saraso_sudarymas(){
 
 wregex url_israisku_nustatymas(){
     wstring tld_sablonas = tld_saraso_sudarymas();
-    wregex url_israiska(
-        LR"((https?://|www\.)[^\s()<>]+|([a-zA-Z0-9.-]+\.)" + tld_sablonas + LR"((/[^\s()<>]*|(?=[\s()<> \t]|$))))",
-        icase
-    );
+    wregex url_israiska(LR"(((https?://|www\.)[^\s()<>]+)|(([a-zA-Z0-9.-]+\.)" + tld_sablonas + LR"((/[^\s()<>]*|(?![a-zA-Z0-9])))))", icase);
     return url_israiska;
 }

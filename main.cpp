@@ -10,7 +10,7 @@ int main(){
     locale::global(locale("en_US.UTF-8"));
     
     map <wstring, pair<int, vector<int>>> zodziai;
-    vector <wstring> url;
+    set <wstring> url;
     
     wregex url_israiska = url_israisku_nustatymas();
     string failas = failo_pavadinimo_iv();

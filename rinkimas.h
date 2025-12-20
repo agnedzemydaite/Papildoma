@@ -1,11 +1,13 @@
 #include <sstream>
 #include <string>
 #include <map>
+#include <set>
 
 using std::vector;
 using std::string;
 using std::map;
 using std::pair;
+using std::set;
 
 //nustato ar zodyje yra bent viena raide
 bool raide(const wstring& s);
@@ -17,5 +19,5 @@ bool visos_did(const wstring& s);
 vector<wstring> zodzio_pertvarkymas(wstring zodis);
 
 //randa zodzius ir nuorodas(url)
-void radimas(map <wstring, pair<int, vector<int>>> & zodziai, vector <wstring> & url, string & failas, wregex & url_israiska);
+void radimas(map <wstring, pair<int, vector<int>>> & zodziai, std::set <wstring> & url, string & failas, wregex & url_israiska);
 

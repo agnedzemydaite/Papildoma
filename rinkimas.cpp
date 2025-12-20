@@ -57,7 +57,7 @@ vector<wstring> zodzio_pertvarkymas(wstring zodis){
 }
 
 
-void radimas(map <wstring, pair<int, vector<int>>> & zodziai, vector <wstring> & url, string & failas, wregex & url_israiska){
+void radimas(map <wstring, pair<int, vector<int>>> & zodziai, set <wstring> & url, string & failas, wregex & url_israiska){
     
     wstring eilute;
     int eilutes_nr = 0;
@@ -74,7 +74,11 @@ void radimas(map <wstring, pair<int, vector<int>>> & zodziai, vector <wstring> &
             
             while (wiss >> zodis) {
                 if (regex_search(zodis, match, url_israiska)) {
-                    url.push_back(match[0].str());
+                    wstring rasta_nuoroda = match[0].str();
+                    while (!rasta_nuoroda.empty() && !iswalnum(rasta_nuoroda.back()) && rasta_nuoroda.back() != L'/'){
+                        rasta_nuoroda.pop_back();
+                    }
+                    url.insert(rasta_nuoroda);
                 }
                 else {
                     vector<wstring> sutvarkyti = zodzio_pertvarkymas(zodis);
