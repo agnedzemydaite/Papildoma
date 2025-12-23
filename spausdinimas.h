@@ -7,6 +7,7 @@
 #include <fstream>
 #include <iostream>
 #include <set>
+#include <iomanip>
 
 using std::map;
 using std::wstring;
